@@ -15,8 +15,8 @@ Ensure you have Python installed (>=3.10). No additional dependencies are requir
 ### Steps:
 1. Clone the repository or download the script:
    ```sh
-   git clone <repository_url>
-   cd <repository_directory>
+   git clone https://github.com/khethan-god/Maze_Solver.git
+   cd Maze_Solver
    ```
 2. Run the script:
    ```sh
