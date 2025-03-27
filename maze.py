@@ -27,6 +27,7 @@ class Maze:
 
     def _create_cells(self):
         """Creates the maze grid and draws each cell."""
+        self._win.update_status(f"Creating {self._num_cols * self._num_rows} cells")
         self._cells = [[Cell(self._win) for _ in range(self._num_rows)] for _ in range(self._num_cols)]
         for i in range(self._num_cols):
             for j in range(self._num_rows):
@@ -129,7 +130,7 @@ class Maze:
 
         # vist the current cell
         self._cells[i][j].visited = True
-
+        self._win.save_frame()  # Save frame after visiting a cell
         # if we are at the end cell, we are done!
         if (i, j) == (self._num_cols - 1, self._num_rows - 1):
             return True
@@ -139,9 +140,12 @@ class Maze:
         for x, y in neighbor:
         # moves left/right/up/down if there is no wall and it hasn't been visited
             self._cells[i][j].draw_move(self._cells[x][y])
+            self._win.save_frame()  # Save frame after drawing move forward
+
             if self._solve_dfs_r(x, y):
                 return True
             self._cells[i][j].draw_move(self._cells[x][y], True)
+            self._win.save_frame()  # Save frame after drawing backtrack
 
         # we went the wrong way let the previous cell know by returning False
         return False
@@ -158,6 +162,7 @@ class Maze:
             i, j = stack.pop()
             if not self._cells[i][j].visited:
                 self._cells[i][j].visited = True
+                self._win.save_frame()  # Save frame after visiting a cell
 
             if (i, j) == (self._num_cols - 1, self._num_rows - 1):
                 return True
@@ -165,6 +170,7 @@ class Maze:
             for x, y in self.neighbors(i, j):
                 stack.append((x, y))
                 self._cells[i][j].draw_move(self._cells[x][y])
+                self._win.save_frame()
 
         return False
     
@@ -178,6 +184,7 @@ class Maze:
             # Mark the current cell as visited
             if not self._cells[i][j].visited:
                 self._cells[i][j].visited = True
+                self._win.save_frame()  # Save frame after visiting a cell
 
             # If we are at the end cell, return True
             if (i, j) == (self._num_cols - 1, self._num_rows - 1):
@@ -187,6 +194,7 @@ class Maze:
             for x, y in self.neighbors(i, j):
                 stack.append((x, y))
                 self._cells[i][j].draw_move(self._cells[x][y])
+                self._win.save_frame()
 
         # If the stack is empty and we haven't found the solution, return False
         return False
@@ -201,10 +209,12 @@ class Maze:
         self._celebrate()
 
     def _celebrate(self):
-        """Simulate celebration when the maze is solved."""
         for _ in range(5):
             self._win.update_status("◝(ᵔᗜᵔ)◜(っᵔ◡ᵔ)っ Maze Solved! ◝(ᵔᗜᵔ)◜(っᵔ◡ᵔ)っ")
-            time.sleep(0.25)
+            time.sleep(0.4)
+            self._win.save_frame()  # Capture celebration frames
             self._win.update_status("◝(ᵔᗜᵔ)৻(  •̀ ᗜ •́  ৻) Maze Solved! ◝(ᵔᗜᵔ)৻(  •̀ ᗜ •́  ৻)")
-            time.sleep(0.25)
+            time.sleep(0.4)
+            self._win.save_frame()  # Capture celebration frames
         self._win.update_status("Great Job!")
+        self._win.save_frame()  # Final frame

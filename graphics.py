@@ -1,5 +1,5 @@
+from PIL import Image, ImageGrab
 from tkinter import Tk, BOTH, Canvas, Label
-
 
 class Point:
     """Represents a 2D point with x and y coordinates."""
@@ -42,6 +42,9 @@ class Window:
 
         self.__running = False  # Controls the main event loop
 
+        # List to store frames for GIF
+        self.frames = []
+
     def update_status(self, text):
         """Updates the label text to show each step"""
         self.status_label.config(text=text)
@@ -66,3 +69,17 @@ class Window:
     def close(self):
         """Closes the window and stops the main loop."""
         self.__running = False
+
+    def save_frame(self):
+        # Capture the entire window (including label)
+        x = self.__window.winfo_rootx()
+        y = self.__window.winfo_rooty()
+        x1 = x + self.__window.winfo_width()
+        y1 = y + self.__window.winfo_height()
+        frame = ImageGrab.grab(bbox=(x, y, x1, y1))
+        self.frames.append(frame)
+
+    def save_gif(self, filename="maze_solving.gif"):
+        if self.frames:
+            self.frames[0].save(filename, save_all=True, append_images=self.frames[1:], duration=50, loop=0)
+            print(f"GIF saved as {filename}")

@@ -40,6 +40,8 @@ Certainly! Below is an updated and improved version of the README that incorpora
 ## Overview
 This Python project generates and solves a maze using either the **Depth-First Search (DFS)** or **Breadth-First Search (BFS)** algorithm. The maze is displayed using **Tkinter**, where each cell in the grid represents a segment of the maze. The program first creates a grid, carves out a solvable maze using a recursive backtracking algorithm, and then attempts to solve it using the chosen algorithm, either DFS or BFS, with an animated path.
 
+![Maze solving using DFS recursively](maze_solving.gif)
+
 ## Features
 - Generates a random maze using a **recursive backtracking** algorithm.
 - Visual representation using **Tkinter**.

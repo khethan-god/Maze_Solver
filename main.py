@@ -21,7 +21,7 @@ def main():
     else:
         print("maze solved!")
         maze.on_solved()
-    
+    win.save_gif()  # Save the GIF after solving
     win.wait_for_close()
 
 
