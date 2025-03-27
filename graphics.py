@@ -1,4 +1,4 @@
-from tkinter import Tk, BOTH, Canvas
+from tkinter import Tk, BOTH, Canvas, Label
 
 
 class Point:
@@ -32,9 +32,20 @@ class Window:
         self.__window = Tk()
         self.__window.title("Maze Solver")
         self.__window.protocol("WM_DELETE_WINDOW", self.close)
+
         self.__canvas = Canvas(self.__window, bg="white", height=height, width=width)
         self.__canvas.pack(fill=BOTH, expand=1)
+
+        # Label to display current process info
+        self.status_label = Label(self.__window, text="Initializing...", font=("Helvetica", 14))
+        self.status_label.pack(side="top", pady=10)
+
         self.__running = False  # Controls the main event loop
+
+    def update_status(self, text):
+        """Updates the label text to show each step"""
+        self.status_label.config(text=text)
+        self.redraw()
 
     def redraw(self):
         """Updates the window to reflect any changes in the canvas."""
